@@ -1,0 +1,27 @@
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#f3f6f9;color:#223142}
+.container{width:min(1180px,94%);margin:40px auto}
+.narrow{width:min(850px,94%)}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+h1,h2{margin-top:0}
+header p{margin:5px 0;color:#718096}
+.grid{display:grid;grid-template-columns:1fr 1.35fr;gap:22px}
+.card{background:#fff;border:1px solid #e1e7ed;border-radius:14px;padding:24px;margin-bottom:22px;box-shadow:0 8px 25px rgba(20,40,60,.05)}
+label{display:block;margin:15px 0 6px;font-weight:600;font-size:14px}
+input,select{width:100%;padding:11px 12px;border:1px solid #cdd6df;border-radius:8px;font:inherit}
+button{margin-top:18px;padding:11px 18px;border:0;border-radius:8px;background:#2f6fa8;color:white;font-weight:700;cursor:pointer}
+.search{display:grid;grid-template-columns:1fr auto;gap:10px}
+.search button{margin-top:0}
+.results{margin-top:20px}
+.patient-row,.report-row{display:grid;grid-template-columns:130px 1fr 150px;gap:12px;padding:13px 8px;border-bottom:1px solid #edf1f5;text-decoration:none;color:inherit}
+.report-row{grid-template-columns:1fr}
+.patient-row:hover,.report-row:hover{background:#f7fafc}
+.message{margin-bottom:20px;padding:12px 15px;border-radius:8px;background:#eaf4ff;border:1px solid #c8e0f8}
+.muted{color:#7a8794}
+.back{display:inline-block;margin-bottom:18px;color:#2f6fa8;text-decoration:none}
+.patient-data{display:grid;grid-template-columns:1fr 1fr;gap:4px 20px}
+@media(max-width:760px){
+  .grid{grid-template-columns:1fr}
+  .patient-row{grid-template-columns:1fr}
+  .patient-data{grid-template-columns:1fr}
+}

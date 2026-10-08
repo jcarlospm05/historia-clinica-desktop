@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ patient['patient_no'] }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container narrow">
+  <a href="{{ url_for('index') }}" class="back">← Volver</a>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}<div class="message">{{ messages[0] }}</div>{% endif %}
+  {% endwith %}
+
+  <section class="card">
+    <h1>{{ patient['first_name'] }} {{ patient['last_name'] }}</h1>
+    <div class="patient-data">
+      <p><b>No.:</b> {{ patient['patient_no'] }}</p>
+      <p><b>Nacimiento:</b> {{ patient['birth_date'] or '' }}</p>
+      <p><b>Sexo:</b> {{ patient['sex'] or '' }}</p>
+      <p><b>Teléfono:</b> {{ patient['phone'] or '' }}</p>
+    </div>
+
+    <form method="post" action="{{ url_for('create_report', patient_id=patient['id']) }}">
+      <button type="submit">Crear reporte PDF</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Reportes</h2>
+    {% for r in reports %}
+      <a class="report-row" target="_blank"
+         href="{{ url_for('open_report', file_name=r['file_name']) }}">
+        {{ r['file_name'] }}
+      </a>
+    {% else %}
+      <p class="muted">Este paciente todavía no tiene reportes.</p>
+    {% endfor %}
+  </section>
+</div>
+</body>
+</html>

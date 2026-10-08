@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Historia Clínica</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+  <header>
+    <div>
+      <h1>Historia Clínica</h1>
+      <p>v0.1 · Pacientes y reportes</p>
+    </div>
+  </header>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}<div class="message">{{ messages[0] }}</div>{% endif %}
+  {% endwith %}
+
+  <div class="grid">
+    <section class="card">
+      <h2>Nuevo paciente</h2>
+      <form method="post" action="{{ url_for('create_patient') }}">
+        <label>Nombres</label>
+        <input name="first_name" required>
+
+        <label>Apellidos</label>
+        <input name="last_name" required>
+
+        <label>Fecha de nacimiento</label>
+        <input name="birth_date" type="date">
+
+        <label>Sexo</label>
+        <select name="sex">
+          <option value="">Seleccione</option>
+          <option>Masculino</option>
+          <option>Femenino</option>
+          <option>Otro</option>
+        </select>
+
+        <label>Teléfono</label>
+        <input name="phone">
+
+        <button type="submit">Guardar paciente</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Buscar paciente</h2>
+      <form method="get" action="{{ url_for('index') }}" class="search">
+        <input name="q" value="{{ q }}" placeholder="Nombre, No. o teléfono">
+        <button type="submit">Buscar</button>
+      </form>
+
+      <div class="results">
+        {% for p in patients %}
+        <a class="patient-row" href="{{ url_for('patient_detail', patient_id=p['id']) }}">
+          <strong>{{ p['patient_no'] }}</strong>
+          <span>{{ p['first_name'] }} {{ p['last_name'] }}</span>
+          <span>{{ p['phone'] or '' }}</span>
+        </a>
+        {% else %}
+        <p class="muted">No hay resultados.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</div>
+</body>
+</html>

@@ -1,2 +1,13 @@
-# historia-clinica-desktop
-historia-clinica-desktop
+# Historia Clínica Web v0.1
+
+1. Instala Python 3 en Windows.
+2. Descarga el proyecto.
+3. Haz doble clic en `START_APP.bat`.
+4. La app abre en `http://127.0.0.1:5000`.
+
+Incluye:
+- Crear paciente.
+- Buscar paciente.
+- SQLite local.
+- Crear PDF.
+- Guardar PDF en `/reports`.
