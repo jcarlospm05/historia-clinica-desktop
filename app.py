@@ -34,6 +34,18 @@ def init_db():
         created_at TEXT NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS consultations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        consultation_no TEXT UNIQUE,
+        patient_id INTEGER NOT NULL,
+        consultation_date TEXT NOT NULL,
+        reason TEXT,
+        notes TEXT,
+        status TEXT NOT NULL DEFAULT 'BORRADOR',
+        created_at TEXT NOT NULL,
+        FOREIGN KEY(patient_id) REFERENCES patients(id)
+    );
+
     CREATE TABLE IF NOT EXISTS reports (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         patient_id INTEGER NOT NULL,
@@ -114,6 +126,57 @@ def patient_detail(patient_id):
         return "Paciente no encontrado", 404
 
     return render_template("patient.html", patient=patient, reports=reports)
+
+
+@app.route("/patients/<int:patient_id>/consultations/new")
+def new_consultation(patient_id):
+    conn = db()
+    patient = conn.execute("SELECT * FROM patients WHERE id=?", (patient_id,)).fetchone()
+    conn.close()
+
+    if patient is None:
+        return "Paciente no encontrado", 404
+
+    return render_template("consultation.html", patient=patient)
+
+@app.post("/patients/<int:patient_id>/consultations")
+def create_consultation(patient_id):
+    reason = request.form.get("reason", "").strip()
+    notes = request.form.get("notes", "").strip()
+
+    conn = db()
+    patient = conn.execute("SELECT * FROM patients WHERE id=?", (patient_id,)).fetchone()
+
+    if patient is None:
+        conn.close()
+        return "Paciente no encontrado", 404
+
+    now = datetime.now()
+    cur = conn.execute("""
+        INSERT INTO consultations
+        (consultation_no, patient_id, consultation_date, reason, notes, status, created_at)
+        VALUES (NULL, ?, ?, ?, ?, 'BORRADOR', ?)
+    """, (
+        patient_id,
+        now.strftime("%Y-%m-%d"),
+        reason or None,
+        notes or None,
+        now.isoformat(timespec="seconds")
+    ))
+
+    consultation_id = cur.lastrowid
+    consultation_no = f"CON-{now.year}-{consultation_id:06d}"
+
+    conn.execute(
+        "UPDATE consultations SET consultation_no=? WHERE id=?",
+        (consultation_no, consultation_id)
+    )
+    conn.commit()
+    conn.close()
+
+    flash(f"Consulta creada: {consultation_no}")
+    return redirect(url_for("patient_detail", patient_id=patient_id))
+
 
 @app.post("/patients/<int:patient_id>/report")
 def create_report(patient_id):

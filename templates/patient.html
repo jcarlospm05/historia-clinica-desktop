@@ -23,9 +23,28 @@
       <p><b>Teléfono:</b> {{ patient['phone'] or '' }}</p>
     </div>
 
-    <form method="post" action="{{ url_for('create_report', patient_id=patient['id']) }}">
-      <button type="submit">Crear reporte PDF</button>
-    </form>
+    <div class="actions">
+      <a class="button-link" href="{{ url_for('new_consultation', patient_id=patient['id']) }}">
+        Nueva consulta
+      </a>
+      <form method="post" action="{{ url_for('create_report', patient_id=patient['id']) }}">
+        <button type="submit">Crear reporte PDF</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Consultas</h2>
+    {% for c in consultations %}
+      <div class="consult-row">
+        <strong>{{ c['consultation_no'] }}</strong>
+        <span>{{ c['consultation_date'] }}</span>
+        <span>{{ c['status'] }}</span>
+        <span>{{ c['reason'] or '' }}</span>
+      </div>
+    {% else %}
+      <p class="muted">Este paciente todavía no tiene consultas.</p>
+    {% endfor %}
   </section>
 
   <section class="card">

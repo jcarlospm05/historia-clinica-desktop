@@ -1,4 +1,4 @@
-# Historia Clínica Web v0.1
+# Historia Clínica Web v0.2
 
 1. Instala Python 3 en Windows.
 2. Descarga el proyecto.
@@ -11,3 +11,6 @@ Incluye:
 - SQLite local.
 - Crear PDF.
 - Guardar PDF en `/reports`.
+
+- Crear consulta.
+- Guardar motivo y observaciones en SQLite.

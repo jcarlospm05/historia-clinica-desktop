@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nueva consulta</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container narrow">
+  <a href="{{ url_for('patient_detail', patient_id=patient['id']) }}" class="back">← Volver</a>
+
+  <section class="card">
+    <h1>Nueva consulta</h1>
+    <p><b>Paciente:</b> {{ patient['first_name'] }} {{ patient['last_name'] }}</p>
+
+    <form method="post" action="{{ url_for('create_consultation', patient_id=patient['id']) }}">
+      <label>Motivo de consulta</label>
+      <input name="reason">
+
+      <label>Observaciones</label>
+      <textarea name="notes" rows="8"></textarea>
+
+      <button type="submit">Guardar consulta</button>
+    </form>
+  </section>
+</div>
+</body>
+</html>

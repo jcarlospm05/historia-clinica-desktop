@@ -25,3 +25,11 @@ button{margin-top:18px;padding:11px 18px;border:0;border-radius:8px;background:#
   .patient-row{grid-template-columns:1fr}
   .patient-data{grid-template-columns:1fr}
 }
+
+textarea{width:100%;padding:11px 12px;border:1px solid #cdd6df;border-radius:8px;font:inherit;resize:vertical}
+.actions{display:flex;gap:12px;align-items:center;margin-top:18px}
+.actions form{margin:0}
+.actions button{margin-top:0}
+.button-link{display:inline-block;padding:11px 18px;border-radius:8px;background:#2f6fa8;color:white;font-weight:700;text-decoration:none}
+.consult-row{display:grid;grid-template-columns:180px 120px 120px 1fr;gap:12px;padding:12px 8px;border-bottom:1px solid #edf1f5}
+@media(max-width:760px){.consult-row{grid-template-columns:1fr}}
